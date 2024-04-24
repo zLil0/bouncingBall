@@ -15,7 +15,7 @@ class Ball {
         this.radius = radius
         this.color = color
         this.velocity = {
-            x: 5,
+            x: 10,
             y: 10
         }
     }
@@ -43,14 +43,37 @@ function backgroundCircle() {
 
 function colliding(ball){
     if(Math.hypot(ball.pos.x + ball.velocity.x - xCenter, ball.pos.y + ball.velocity.y - yCenter)<bigCircleRadius - ball.radius){
-        ball.velocity.y += 0.5
+        ball.velocity.y += 0.1
     }
     else{
-        const collideAngle = Math.atan2(ball.pos.y - yCenter, ball.pos.x - xCenter)
+        if(ball.radius<= bigCircleRadius){
+            const collideAngle = Math.atan2(ball.pos.y - yCenter, ball.pos.x - xCenter)
         
-        ball.velocity.x = -Math.cos(collideAngle)*10
-        ball.velocity.y = -Math.sin(collideAngle)*10
-        console.log(-Math.cos(collideAngle)*10, -Math.sin(collideAngle)*7 )
+            ball.radius +=2.5
+            
+
+            if(Math.cos(collideAngle)<0.8 && Math.cos(collideAngle)>-0.8){
+                ball.velocity.x -= Math.cos(collideAngle) * 10
+            }
+            else{
+                ball.velocity.x *=-1.01
+            }
+            if(Math.sin(collideAngle)<0.8 && Math.sin(collideAngle)>-0.8){
+                ball.velocity.y -= Math.sin(collideAngle) * 10
+            }
+            else{
+                ball.velocity.y *=-1.02
+            }
+
+            console.log(-Math.cos(collideAngle)*10, -Math.sin(collideAngle)*7 )
+        }
+        else{
+            ball.velocity.y = 0
+            ball.velocity.x = 0
+            ball.pos.x = xCenter
+            ball.pos.y = yCenter
+        }
+        
     }
 }
 
